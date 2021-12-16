@@ -87,10 +87,10 @@ namespace WebAddressBookTests
         {
             driver.FindElement(By.Name("user")).Click();
             driver.FindElement(By.Name("user")).Clear();
-            driver.FindElement(By.Name("user")).SendKeys("username");
+            driver.FindElement(By.Name("user")).SendKeys("admin");
             driver.FindElement(By.Name("pass")).Click();
             driver.FindElement(By.Name("pass")).Clear();
-            driver.FindElement(By.Name("pass")).SendKeys("password");
+            driver.FindElement(By.Name("pass")).SendKeys("secret");
             driver.FindElement(By.XPath("//input[@value='Login']")).Click();
         }
 
@@ -98,7 +98,7 @@ namespace WebAddressBookTests
 
         private void OpenHomePage()
         {
-            driver.Navigate().GoToUrl(baseURL + "/addressbook/");
+            driver.Navigate().GoToUrl(baseURL);
         }
 
         private bool IsElementPresent(By by)
