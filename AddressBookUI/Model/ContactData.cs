@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace AddressBookUI
 {
-    class ContactData
+    public class ContactData
     {
-        private string firstName;
-        private string lastName = "";
-        private string address = "";
-        private string homePhone = "";
-        private string mobilePhone = "";
-        private string workPhone = "";
-        private string email = "";
+        public string firstName;
+        public string lastName = "";
+        public string address = "";
+        public string homePhone = "";
+        public string mobilePhone = "";
+        public string workPhone = "";
+        public string email = "";
         private string email2 = "";
-        private string email3 = "";
+        public string email3 = "";
         public ContactData(string firstName)
         {
             this.firstName = firstName;
