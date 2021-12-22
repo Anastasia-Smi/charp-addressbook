@@ -22,6 +22,9 @@ namespace AddressBookUI
             this.driver = manager.Driver;
         }
 
+
+     
+
         public  bool IsElementPresent(By by)
         {
             try
@@ -34,6 +37,7 @@ namespace AddressBookUI
                 return false;
             }
         }
+    
         public bool IsAlertPresent()
         {
             try
@@ -67,5 +71,6 @@ namespace AddressBookUI
                 acceptNextAlert = true;
             }
         }
+        
     }
 }

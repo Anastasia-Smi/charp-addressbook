@@ -14,7 +14,7 @@ namespace AddressBookUI
         [Test]
         public void GroupCreation()
         {
-            //app.Navigator.GoToGroupsPage();
+            app.Navigator.GoToGroupsPage();
             GroupData group = new GroupData("Family");
             group.GroupName = "Family";
             group.GroupHeader = "HeaderFamiy";
@@ -22,9 +22,10 @@ namespace AddressBookUI
             app.Groups.Create(group);
             app.Auth.LogOut();
         }
+        [Test ]
         public void GroupCreationEmptyFields()
         {
-            //app.Navigator.GoToGroupsPage();
+            app.Navigator.GoToGroupsPage();
             GroupData group = new GroupData("");
             group.GroupName = "";
             group.GroupHeader = "";

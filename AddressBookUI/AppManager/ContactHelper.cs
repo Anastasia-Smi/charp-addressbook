@@ -29,7 +29,7 @@ namespace AddressBookUI
 
         public ContactHelper SubmitContactCreation()
         {
-            driver.FindElement(By.Name("submit"));
+            driver.FindElement(By.Name("submit")).Click();
 
             return this;
         }
@@ -101,6 +101,7 @@ namespace AddressBookUI
             driver.FindElement(By.LinkText("Logout")).Click();
             return this;
         }
+
 
     }
 }

@@ -41,6 +41,8 @@ namespace AddressBookUI
                 return driver;
             }
         }
+
+
         public LoginHelper Auth
         {
             get 
@@ -79,7 +81,8 @@ namespace AddressBookUI
             {
                 // Ignore errors if unable to close the browser
             }
-           
+
         }
+      
     }
 }
