@@ -10,7 +10,7 @@ namespace AddressBookUI
 
     [TestFixture]
         public class ContactRemovalTests : BaseTest
-        {
+    {
             [Test]
 
             public void ContactRemovalTest()

@@ -11,11 +11,7 @@ namespace AddressBookUI
 {
     public class ApplicationManager
     {
-        
-    
-     
         protected IWebDriver driver;
-        //private StringBuilder varificationErrors;
         protected string baseURL;
 
         protected LoginHelper loginHelper;
@@ -31,8 +27,9 @@ namespace AddressBookUI
             driver = new FirefoxDriver();
             baseURL = "http://localhost/addressbook";
           
-            navigationHelper = new NavigationHelper(this, baseURL);
+           
             loginHelper = new LoginHelper(this); 
+            navigationHelper = new NavigationHelper(this, baseURL); 
             groupHelper = new GroupHelper(this);
             contactHelper = new ContactHelper(this);
      

@@ -15,14 +15,14 @@ namespace AddressBookUI
 
         
     {
-        public  IWebDriver driver;
+        public  IWebDriver Driver;
         private string baseURL;
   
 
         public NavigationHelper(ApplicationManager manager, string baseURL) 
             : base(manager)
         {
-            this.driver = driver;
+            this.Driver = driver;
             this.baseURL = baseURL;
         }
         public NavigationHelper OpenHomePage()

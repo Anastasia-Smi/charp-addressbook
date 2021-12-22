@@ -11,7 +11,7 @@ using OpenQA.Selenium.Support.UI;
 
 namespace AddressBookUI
 {
-    public class HelperBase : ApplicationManager
+    public class HelperBase 
     {
         public IWebDriver driver;
         public ApplicationManager manager;
@@ -19,7 +19,7 @@ namespace AddressBookUI
 
         public HelperBase(ApplicationManager manager) {
             this.manager = manager;
-            driver = manager.Driver;
+            this.driver = manager.Driver;
         }
 
         public  bool IsElementPresent(By by)

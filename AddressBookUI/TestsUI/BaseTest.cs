@@ -12,12 +12,13 @@ namespace AddressBookUI
     public class BaseTest
     {
         protected ApplicationManager app;
-        
+
 
         [SetUp]
         public void SetupTest()
         {
             app = new ApplicationManager();
+
             app.Navigator.OpenHomePage();
             app.Auth.Login(new AccountData("admin", "secret"));
         }
@@ -27,8 +28,5 @@ namespace AddressBookUI
         {
             app.Stop();
         }
-
-            
     }
-
 }

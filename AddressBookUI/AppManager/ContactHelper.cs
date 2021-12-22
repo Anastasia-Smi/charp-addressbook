@@ -14,12 +14,12 @@ namespace AddressBookUI
     public class ContactHelper : HelperBase
     {
        //private IWebDriver driver;
-        //private string baseURL;
+        private string baseURL;
 
         public ContactHelper(ApplicationManager manager, string baseURL) : base(manager)
         {
-               //this.driver = driver;
-               //this.baseURL = baseURL;
+               this.driver = driver;
+               this.baseURL = baseURL;
             
         }
 
@@ -86,6 +86,7 @@ namespace AddressBookUI
         public ContactHelper OpenContactSummaryPage()
         {
             driver.FindElement(By.LinkText("home page")).Click();
+        
             return this;
         }
 
