@@ -24,7 +24,7 @@ namespace AddressBookUI
             InitGroupCreation();
             FillGroupForm(group);
             SubmitGroupCreation();
-            
+  
             return this;
         }
 
