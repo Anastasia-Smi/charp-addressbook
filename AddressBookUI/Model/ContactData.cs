@@ -17,6 +17,7 @@ namespace AddressBookUI
         public string email = "";
         private string email2 = "";
         public string email3 = "";
+        
         public ContactData(string firstName)
         {
             this.firstName = firstName;

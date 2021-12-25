@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AddressBookUI.TestsUI;
 using NUnit.Framework;
 
 
@@ -15,18 +16,11 @@ namespace AddressBookUI
 
 
         [SetUp]
-        public void SetupTest()
+        public void SetupApplicationManager()
         {
-            app = new ApplicationManager();
+            app = ApplicationManager.GetInstance();
+           
 
-            app.Navigator.OpenHomePage();
-            app.Auth.Login(new AccountData("admin", "secret"));
-        }
-
-        [TearDown]
-        public void TeardownTest()
-        {
-            app.Stop();
         }
     }
 }

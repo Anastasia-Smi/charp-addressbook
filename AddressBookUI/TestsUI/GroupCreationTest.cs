@@ -9,7 +9,7 @@ namespace AddressBookUI
 
 {
     [TestFixture]
-    public class GroupCreationTests : BaseTest
+    public class GroupCreationTests : AuthBaseTest
     {
         [Test]
         public void GroupCreation()

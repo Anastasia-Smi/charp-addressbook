@@ -35,34 +35,15 @@ namespace AddressBookUI
         }
         public ContactHelper FillAddContactForm(ContactData contact)
         {
-            driver.FindElement(By.Name("firstname")).Click();
-            driver.FindElement(By.Name("firstname")).Clear();
-            driver.FindElement(By.Name("firstname")).SendKeys(contact.FirstName);
-            driver.FindElement(By.Name("lastname")).Click();
-            driver.FindElement(By.Name("lastname")).Clear();
-            driver.FindElement(By.Name("lastname")).SendKeys(contact.LastName);
-            driver.FindElement(By.Name("address")).Click();
-            driver.FindElement(By.Name("address")).Clear();
-            driver.FindElement(By.Name("address")).SendKeys(contact.Address);
-            driver.FindElement(By.Name("home")).Click();
-            driver.FindElement(By.Name("home")).Clear();
-            driver.FindElement(By.Name("home")).SendKeys(contact.HomePhone);
-            driver.FindElement(By.Name("mobile")).Click();
-            driver.FindElement(By.Name("mobile")).Clear();
-            driver.FindElement(By.Name("mobile")).SendKeys(contact.MobilePhone);
-            driver.FindElement(By.Name("work")).Click();
-            driver.FindElement(By.Name("work")).Clear();
-            driver.FindElement(By.Name("work")).SendKeys(contact.WorkPhone);
-            driver.FindElement(By.Name("email")).Click();
-            driver.FindElement(By.Name("email")).Clear();
-            driver.FindElement(By.Name("email")).SendKeys(contact.Email);
-            driver.FindElement(By.Name("email2")).Click();
-            driver.FindElement(By.Name("email2")).Clear();
-            driver.FindElement(By.Name("email2")).SendKeys(contact.Email2);
-            driver.FindElement(By.Name("email3")).Click();
-            driver.FindElement(By.Name("email3")).Clear();
-            driver.FindElement(By.Name("email3")).SendKeys(contact.Email3);
-
+            Type(By.Name("firstname"), contact.firstName);
+            Type(By.Name("lastname"), contact.LastName);
+            Type(By.Name("address"), contact.Address);
+            Type(By.Name("home"), contact.HomePhone);
+            Type(By.Name("mobile"), contact.MobilePhone);
+            Type(By.Name("work"), contact.WorkPhone);
+            Type(By.Name("email"), contact.Email);
+            Type(By.Name("email2"), contact.Email2);
+            Type(By.Name("email3"), contact.Email3);
             return this;
         }
 
@@ -73,10 +54,10 @@ namespace AddressBookUI
             return this;
         }
 
-        public void  SelectContact()
+        public ContactHelper SelectContact()
         {
             driver.FindElement(By.Id("1")).Click();
-            
+            return this;
         }
         public ContactHelper ClickDeleteButton()
         {
@@ -102,6 +83,76 @@ namespace AddressBookUI
             return this;
         }
 
+        public ContactHelper Modify(ContactData contact)
+        {
+            manager.Navigator.GoToEditContactPage();
+            FillAddContactForm(contact);
+            SubmitEditedConatct();
 
+            return this;
+        }
+
+            public ContactHelper EditEmail(ContactData contact)
+            {
+                driver.FindElement(By.XPath("//form[@action='edit.php']")).Click();
+                Type(By.Name("email"), contact.Email);
+                return this;
+            }
+        
+
+           public ContactHelper SubmitEditedConatct()
+           {
+            driver.FindElement(By.Name("update")).Click();
+            return this;
+           }
+
+           public ContactHelper EditEmail3(ContactData contact)
+           {
+            driver.FindElement(By.XPath("//form[@action='edit.php']")).Click();
+            Type(By.Name("email3"), contact.Email3);
+            return this;
+           }
+
+           public ContactHelper EditEmail2(ContactData contact)
+           {
+            driver.FindElement(By.XPath("//form[@action='edit.php']")).Click();
+            Type(By.Name("email2"), contact.Email2);
+            return this;
+           }
+
+           public ContactHelper EditMobileTelephone(ContactData contact)
+           {
+            driver.FindElement(By.XPath("//form[@action='edit.php']")).Click();
+           Type(By.Name("mobile"), contact.MobilePhone);
+            return this;
+            }
+
+           public ContactHelper EditHomeTelephone(ContactData contact)
+           {
+            driver.FindElement(By.XPath("//form[@action='edit.php']")).Click();
+            Type(By.Name("home"), contact.HomePhone);
+           return this;
+           }
+
+           public ContactHelper EditAddress(ContactData contact)
+           {
+            driver.FindElement(By.XPath("//form[@action='edit.php']")).Click();
+            Type(By.Name("address"), contact.Address);
+            return this;
+           }
+
+            public ContactHelper EditLastName(ContactData contact)
+            {
+            driver.FindElement(By.Name("lastname")).Click();
+            Type(By.Name("lastname"), contact.LastName);
+            return this;
+            }
+
+            public ContactHelper EditFirstName(ContactData contact)
+            {
+            driver.FindElement(By.Name("firstname")).Click();
+            Type(By.Name("firstname"), contact.FirstName);
+            return this;
+            }
     }
 }

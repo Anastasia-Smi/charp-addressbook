@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace AddressBookUI
 {
     [TestFixture]
-    public class GroupRemovalTtests : BaseTest
+    public class GroupRemovalTtests : AuthBaseTest
     {
         [Test]
         public void GroupRemovalTest()

@@ -13,13 +13,13 @@ namespace AddressBookUI
     public class NavigationHelper : HelperBase
 
 
-        
-    {
-        public  IWebDriver Driver;
-        private string baseURL;
-  
 
-        public NavigationHelper(ApplicationManager manager, string baseURL) 
+    {
+        public IWebDriver Driver;
+        private string baseURL;
+
+
+        public NavigationHelper(ApplicationManager manager, string baseURL)
             : base(manager)
         {
             this.Driver = driver;
@@ -32,22 +32,32 @@ namespace AddressBookUI
             return this;
         }
         public NavigationHelper OpenHomePage()
-            
+
         {
             driver.Navigate().GoToUrl(baseURL);
             return this;
-        
+
         }
 
-        public NavigationHelper GoToGroupsPage()
+        public void GoToGroupsPage()
         {
+            if (driver.Url == baseURL + "/addressbook/group.php"
+                && IsElementPresent(By.Name("new")))
+            {
+                return;
+            }
             driver.FindElement(By.LinkText("groups")).Click();
-            return this;
         }
 
         public NavigationHelper GoToGroupPage()
         {
             driver.FindElement(By.LinkText("groups")).Click();
+            return this;
+        }
+
+        public NavigationHelper GoToEditContactPage()
+        {
+            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[4]/td[8]/a/img")).Click();
             return this;
         }
     }

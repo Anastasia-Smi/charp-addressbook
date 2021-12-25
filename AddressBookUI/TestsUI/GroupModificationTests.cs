@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace AddressBookUI
 {
     [TestFixture]
-    public class GroupModificationTests:BaseTest
+    public class GroupModificationTests : AuthBaseTest
     {
         [Test]
 
@@ -18,8 +18,8 @@ namespace AddressBookUI
             GroupData newData = new GroupData("zzzz");
         
             newData.GroupName = "ttt";
-            newData.GroupHeader = "hhh";
-            newData.GroupFooter = "lll";
+            newData.GroupHeader = null;
+            newData.GroupFooter = null;
 
 
             app.Groups.Modify(1, newData);
