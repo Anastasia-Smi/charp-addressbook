@@ -54,11 +54,14 @@ namespace AddressBookUI
             return this;
         }
 
-        public ContactHelper SelectContact()
+        public ContactHelper SelectContact(int index)
         {
-            driver.FindElement(By.Id("1")).Click();
+
+
+            driver.FindElement(By.XPath("//div[@id='content']/form//td["+ index +"]/input")).Click();
             return this;
         }
+
         public ContactHelper ClickDeleteButton()
         {
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
@@ -154,5 +157,15 @@ namespace AddressBookUI
             Type(By.Name("firstname"), contact.FirstName);
             return this;
             }
+
+        public ContactHelper Remove(int p)
+        {
+            manager.Navigator.OpenHomePage();
+
+
+            SelectContact(p);
+            ClickDeleteButton();
+            return this;
+        }
     }
 }
