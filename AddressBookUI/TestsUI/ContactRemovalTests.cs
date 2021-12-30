@@ -15,13 +15,23 @@ namespace AddressBookUI
 
             public void ContactRemovalTest()
         {
-            app.Contact.SelectContact(1);
+            var helper = new ContactHelper(app);
+
+            helper.CreateContactIfNotExist(1);
+
+            List<ContactData> oldContacts = app.Contact.GetContactList();
+            app.Contact.SelectContact(0);
             app.Contact.ClickDeleteButton();
             app.Contact.OpenContactSummaryPage();
-            app.Auth.LogOut();
+            List<ContactData> newContacts = app.Contact.GetContactList();
+
+            oldContacts.RemoveAt(1);
+            oldContacts.Sort();
+            newContacts.Sort();
+            Assert.AreEqual(oldContacts, newContacts);
         }
 
-    
+
     }
     
 }

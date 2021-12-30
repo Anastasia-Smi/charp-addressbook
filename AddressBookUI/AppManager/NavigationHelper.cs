@@ -34,7 +34,7 @@ namespace AddressBookUI
         public NavigationHelper OpenHomePage()
 
         {
-            driver.Navigate().GoToUrl(baseURL);
+            driver.Navigate().GoToUrl(baseURL+ "/index.php");
             return this;
 
         }
@@ -55,15 +55,6 @@ namespace AddressBookUI
             return this;
         }
 
-        public void GoToEditContactPage()
-        {
-            if (IsElementPresent(By.Name("update"))
-                && IsElementPresent(By.XPath("//div[@id='content']/h1[.='Edit / add address book entry']")))
-            {
-                return;
-            }
-
-            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[4]/td[8]/a/img")).Click();
-        }
+        
     }
 }

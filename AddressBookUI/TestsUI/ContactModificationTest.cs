@@ -15,23 +15,36 @@ public class ContactMificationTests : AuthBaseTest
 
     public void ContactModificationTest()
 
-    {
-            ContactData newData = new ContactData("aaaa");
-            newData.firstName = "aaaa";
-            newData.lastName = "bbb";
-            newData.mobilePhone = "123456";
-            newData.homePhone = "4564789";
-            newData.workPhone = "4587946";
-            newData.address = "kkk";
-            newData.email = "kjlpp@gamil.com";
-            newData.Email2 = "oouygjs@gmail.com";
-            newData.Email3 = "hjjoo@gmail.com";
+        {
 
-            app.Contact.Modify(newData);
-            app.Auth.LogOut();
+            var helper = new ContactHelper(app);
+            helper.CreateContactIfNotExist(1);
+            
+            ContactData newData = new ContactData("Test_Name");
+            newData.firstName = "TestName";
+            newData.lastName = null;
+            newData.mobilePhone = null;
+            newData.homePhone = null;
+            newData.workPhone = null;
+            newData.address = null;
+            newData.email = null;
+            newData.Email2 = null;
+            newData.Email3 = null;
+           
+            List<ContactData> oldContacts = app.Contact.GetContactList();  
+            
+           
+            app.Contact.Modify(0, newData);
+
+            List<ContactData> newContacts = app.Contact.GetContactList();
+            
+            oldContacts[0].firstName = newData.firstName;
+            
+            oldContacts.Sort();
+            newContacts.Sort();
+
+            Assert.AreEqual(oldContacts, newContacts);
+
+        }
     }
-
-
-}
-
 }
