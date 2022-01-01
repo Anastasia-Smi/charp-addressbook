@@ -15,20 +15,37 @@ namespace AddressBookUI
 
             public void ContactRemovalTest()
         {
-            var helper = new ContactHelper(app);
-
-            helper.CreateContactIfNotExist(1);
+            app.Contact.CreateContactIfNotExist(1);
 
             List<ContactData> oldContacts = app.Contact.GetContactList();
+            
             app.Contact.SelectContact(0);
             app.Contact.ClickDeleteButton();
             app.Contact.OpenContactSummaryPage();
+            
             List<ContactData> newContacts = app.Contact.GetContactList();
 
-            oldContacts.RemoveAt(1);
+           
+         
+            
+            Assert.AreEqual(oldContacts.Count -1 , app.Contact.GetContactsCount());
+
+            oldContacts.RemoveAt(0);
+
             oldContacts.Sort();
             newContacts.Sort();
             Assert.AreEqual(oldContacts, newContacts);
+
+           ContactData toBeRemoved = oldContacts[0];
+           
+            oldContacts.RemoveAt(0);
+           
+            Assert.AreEqual(oldContacts, newContacts);
+
+            foreach (ContactData contact in newContacts)
+            {
+                Assert.AreNotEqual(contact.Id, toBeRemoved.Id);
+            }
         }
 
 

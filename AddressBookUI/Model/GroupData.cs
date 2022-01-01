@@ -9,13 +9,11 @@ namespace AddressBookUI
 {
     public class GroupData : IEquatable<GroupData>, IComparable<GroupData>
     {
-        private string groupName;
-        private string groupHeader = "";
-        private string groupFooter = "";
+       
 
         public GroupData(string groupName)
         {
-            this.groupName = groupName;
+            GroupName = groupName;
         }
         public bool Equals(GroupData other)
         {
@@ -30,19 +28,19 @@ namespace AddressBookUI
             }
 
             //verification by sence 
-            return groupName == other.groupName;
+            return GroupName == other.GroupName;
         }
 
         public override int GetHashCode()
             
         {
-            return groupName.GetHashCode();
+            return GroupName.GetHashCode();
         
         }
 
         public override string ToString()
         {
-            return "groupName=" + groupName;
+            return "groupName=" + GroupName;
         }
         public int CompareTo(GroupData other)
         {
@@ -50,45 +48,19 @@ namespace AddressBookUI
             {
                 return 1;
             }
-            return groupName.CompareTo(other.groupName);
+            return GroupName.CompareTo(other.GroupName);
         
         }
-        public string GroupName
-        {
-            get
-            {
-                return groupName;
-            }
+        public string GroupName { get; set;  }
+        
+        public string GroupHeader { get; set; }
+       
+        public string GroupFooter { get; set; }
 
-            set
-            {
-                groupName = value;
-            }
-        }
-        public string GroupHeader
-        {
-            get
-            {
-                return groupHeader;
-            }
+        public string Id { get; set; }
 
-            set
-            {
-                groupHeader = value;
-            }
-        }
-              public string GroupFooter
-              {
-            get
-              {
-                return groupFooter;
-              }
-
-            set
-              {
-                groupFooter = value;
-              }
-        }
     }
-}
+    }
+
+
 

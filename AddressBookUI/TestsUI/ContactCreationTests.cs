@@ -14,7 +14,12 @@ namespace AddressBookUI
         [Test]
         public void AddNewContact()
         {
+            List<ContactData> oldContacts = app.Contact.GetContactList();  
+            
             app.Contact.GoToAddContactPage();
+            
+          
+
             ContactData contact = new ContactData("FirstName");
             contact.FirstName = $"FN_{DateTime.Now:MMddyyyyhh}";
             contact.LastName = $"LN_{DateTime.Now:MMddyyyyhh}";
@@ -24,15 +29,17 @@ namespace AddressBookUI
             contact.Email = $"EEE_{DateTime.Now:MMddyyyyhhmmsstt}" + "@gmail.com";
             contact.Email2 = $"CCC_{DateTime.Now:MMddyyyyhhmmsstt}" + "@gmail.com";
             contact.Email3 = $"DDD_{DateTime.Now:MMddyyyyhhmmsstt}" + "@gmail.com";
-            List<ContactData> oldContacts = app.Contact.GetContactList();
-            app.Contact.FillAddContactForm(contact);
             
+            
+            app.Contact.FillAddContactForm(contact);
+
             app.Contact.SubmitContactCreation();
+            app.Contact.OpenContactSummaryPage();
 
-            //make sure that the new contact was created as well as the old one still exists
+            Assert.AreEqual(oldContacts.Count +1, app.Contact.GetContactsCount());
 
-            //compare the quantity of contacts 
             List<ContactData> newContacts =  app.Contact.GetContactList();
+            
             oldContacts.Add(contact);
             oldContacts.Sort();
             newContacts.Sort();

@@ -13,7 +13,13 @@ namespace AddressBookUI
 {
     public class ContactHelper : HelperBase
     {
+        private List<ContactData> _contactCache = null;
 
+
+        /// <summary>
+        /// I an constructor and i need this param
+        /// </summary>
+        /// <param name="manager">this cool param</param>
         public ContactHelper(ApplicationManager manager) : base(manager)
         {
         }
@@ -21,12 +27,13 @@ namespace AddressBookUI
         public ContactHelper SubmitContactCreation()
         {
             driver.FindElement(By.Name("submit")).Click();
-
+            _contactCache = null;
             return this;
         }
-        public ContactHelper FillAddContactForm(ContactData contact)
+
+        public ContactHelper FillAddContactForm (ContactData contact)
         {
-            Type(By.Name("firstname"), contact.firstName);
+            Type(By.Name("firstname"), contact.FirstName);
             Type(By.Name("lastname"), contact.LastName);
             Type(By.Name("address"), contact.Address);
             Type(By.Name("home"), contact.HomePhone);
@@ -38,20 +45,53 @@ namespace AddressBookUI
             return this;
         }
 
+        /// <summary>
+        /// This function returns contact list from the page
+        /// </summary>
+        /// <returns>returns contact list</returns>
         public List<ContactData> GetContactList()
         {
-            List<ContactData> contacts = new List<ContactData>();
-            manager.Navigator.OpenHomePage();
-           // ICollection<IWebElement> elements =  driver.FindElements(By.CssSelector("input[type='checkbox' ][name='selected[]']"));
 
-            ICollection<IWebElement> elements = driver.FindElements(By.XPath("//*[@id= 'maintable']/tbody/tr[*]/td[8]/a/img"));
-
-
-            foreach (IWebElement element in elements)
+            if (_contactCache == null)
             {
-               contacts.Add(new ContactData(element.Text));
+                _contactCache = new List<ContactData>();
+
+                manager.Navigator.OpenHomePage();
+
+                //find a table
+                var myTable = driver.FindElement(By.Id("maintable"));
+
+                //get all rows
+                List<IWebElement> rows = myTable.FindElements(By.TagName("tr")).ToList();
+
+                //iterate thru each data row
+                rows.ForEach(row =>
+                {
+                    //identify each cell and put into list
+                    var cells = row.FindElements(By.TagName("td")).ToList();
+                    var Id = driver.FindElement(By.TagName("input")).GetAttribute("value");
+
+                    //go to next iteration
+                    if (cells.Count == 0) return;
+
+                    //create data hash for each row
+                    _contactCache.Add(new ContactData(cells[2].Text)
+                    {
+                      
+                        LastName = cells[1].Text,
+                        Address = cells[3].Text,
+                        Email = cells[4].Text,
+                        HomePhone = cells[5].Text
+                    }) ; 
+                });
             }
-            return contacts;
+
+            return _contactCache;
+        }
+
+        public int GetContactsCount()
+        {
+            return driver.FindElements(By.TagName("tr")).Count-1;
         }
 
         public ContactHelper GoToAddContactPage()
@@ -70,6 +110,7 @@ namespace AddressBookUI
         public ContactHelper ClickDeleteButton()
         {
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
+            _contactCache = null;
             return this;
         }
         public ContactHelper OpenContactSummaryPage()
@@ -119,6 +160,7 @@ namespace AddressBookUI
            public ContactHelper SubmitEditedConatct()
            {
             driver.FindElement(By.Name("update")).Click();
+            _contactCache = null;
             return this;
            }
 
@@ -186,6 +228,7 @@ namespace AddressBookUI
 
             if (!IsElementPresent(By.XPath("//*[@id= 'maintable']/tbody/tr[" + (index + 1) + "]/td[8]/a/img")))
             {
+                
                 FillAddContactForm(new ContactData("NewContactIfNotExist"));
             }
 

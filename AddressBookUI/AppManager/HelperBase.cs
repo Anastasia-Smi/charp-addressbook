@@ -22,9 +22,6 @@ namespace AddressBookUI
             this.driver = manager.Driver;
         }
 
-
-     
-
         public  bool IsElementPresent(By by)
         {
             try

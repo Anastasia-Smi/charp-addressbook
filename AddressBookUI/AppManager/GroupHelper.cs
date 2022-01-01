@@ -24,22 +24,38 @@ namespace AddressBookUI
             FillGroupForm(group);
             SubmitGroupCreation();
 
+            manager.Navigator.GoToGroupPage();
+
             return this;
         }
 
+
+        private List<GroupData> groupCache = null;
+
+
         public List<GroupData> GetGroupList()
         {
-            //prepare an empty list, then fill it ant then return it
+         
+
+            if (groupCache == null)
+            {
+                groupCache = new List<GroupData>();
+            }
             List<GroupData> groups = new List<GroupData>();
             manager.Navigator.GoToGroupPage();
             ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
-            //for each element in every collection need to accomplesh the following actiont 
             foreach (IWebElement element in elements)
             {
-                groups.Add(new GroupData(element.Text));
+                groupCache.Add(new GroupData(element.Text)
+                {
+                    Id = element.FindElement(By.TagName("input")).GetAttribute("value")
+                });
+
+             
+               
             }
-            return groups;
-            //so, now we can read an elements and change them into groupData element....
+            return new List<GroupData>(groupCache);
+            
         }
 
         public GroupHelper Modify(int p, GroupData newData)
@@ -50,13 +66,22 @@ namespace AddressBookUI
             InitGroupModification();
             FillGroupForm(newData);
             SubmitGroupModofication();
+           
+            manager.Navigator.GoToGroupPage();
 
             return this;
+        }
+
+        public  int GetGroupCount()
+        {
+           return  driver.FindElements(By.CssSelector("span.group")).Count;
         }
 
         public GroupHelper SubmitGroupModofication()
         {
             driver.FindElement(By.Name("update")).Click();
+            groupCache = null;
+            // cleaning cash
             return this;
         }
 
@@ -66,9 +91,12 @@ namespace AddressBookUI
             return this;
         }
 
-        public void SubmitGroupCreation()
+        public GroupHelper SubmitGroupCreation()
         {
             driver.FindElement(By.Name("submit")).Click();
+            groupCache = null;
+            //cleaning cashe
+            return this;
         }
         public GroupHelper InitGroupCreation()
         {
@@ -101,6 +129,7 @@ namespace AddressBookUI
         public GroupHelper DeleteGroup()
         {
             driver.FindElement(By.Name("delete")).Click();
+            groupCache = null;
             return this;
         }
 
