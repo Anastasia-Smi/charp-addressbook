@@ -15,31 +15,32 @@ namespace AddressBookUI
 
             public void ContactRemovalTest()
         {
-            app.Contact.CreateContactIfNotExist(1);
+            app.Contact.CreateContactIfNotExists(1);
 
             List<ContactData> oldContacts = app.Contact.GetContactList();
             
+
+
+            //deletion 
             app.Contact.SelectContact(0);
             app.Contact.ClickDeleteButton();
-            app.Contact.OpenContactSummaryPage();
+            //navigation back 
+            app.Contact.OpenContactSummaryPage();  
             
-            List<ContactData> newContacts = app.Contact.GetContactList();
-
-           
-         
             
             Assert.AreEqual(oldContacts.Count -1 , app.Contact.GetContactsCount());
 
+            List<ContactData> newContacts = app.Contact.GetContactList();
+                     
+            //new variable which stores data of the first contact in aldlist
+
+            ContactData toBeRemoved = oldContacts[0];  
+            
+            //edit an oldList  
             oldContacts.RemoveAt(0);
 
             oldContacts.Sort();
             newContacts.Sort();
-            Assert.AreEqual(oldContacts, newContacts);
-
-           ContactData toBeRemoved = oldContacts[0];
-           
-            oldContacts.RemoveAt(0);
-           
             Assert.AreEqual(oldContacts, newContacts);
 
             foreach (ContactData contact in newContacts)
@@ -47,10 +48,7 @@ namespace AddressBookUI
                 Assert.AreNotEqual(contact.Id, toBeRemoved.Id);
             }
         }
-
-
     }
-    
 }
 
 

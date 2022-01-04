@@ -62,6 +62,7 @@
     <Compile Include="AppManager\ContactHelper.cs" />
     <Compile Include="driver\Manage.cs" />
     <Compile Include="TestsUI\AuthBaseTest.cs" />
+    <Compile Include="TestsUI\ContactInformationTest.cs" />
     <Compile Include="TestsUI\ContactModificationTest.cs" />
     <Compile Include="TestsUI\ContactRemovalTests.cs" />
     <Compile Include="TestsUI\GroupModificationTests.cs" />

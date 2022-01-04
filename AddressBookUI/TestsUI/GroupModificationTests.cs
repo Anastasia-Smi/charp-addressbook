@@ -23,7 +23,7 @@ namespace AddressBookUI
             List<GroupData> oldGroups = app.Groups.GetGroupList();
 
             GroupData oldData = oldGroups[0];
-            app.Contact.CreateContactIfNotExist(1);
+            app.Groups.CreateGroupIfNotExist(1);
 
 
             app.Groups.Modify(0, newData);

@@ -17,9 +17,9 @@ public class ContactMificationTests : AuthBaseTest
 
         {
 
-            app.Contact.CreateContactIfNotExist(1);
+            app.Contact.CreateContactIfNotExists(1);
          
-            ContactData newData = new ContactData("Test");
+            ContactData newData = new ContactData("Test", "TestName");
             //newData.FirstName = "TestName";
             //newData.lastName = null;
             //newData.mobilePhone = null;

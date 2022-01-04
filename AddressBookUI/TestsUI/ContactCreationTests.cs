@@ -20,7 +20,7 @@ namespace AddressBookUI
             
           
 
-            ContactData contact = new ContactData("FirstName");
+            ContactData contact = new ContactData("FirstName", "LastName");
             contact.FirstName = $"FN_{DateTime.Now:MMddyyyyhh}";
             contact.LastName = $"LN_{DateTime.Now:MMddyyyyhh}";
             contact.Address = $"Address{DateTime.Now:MMddyyyyhhmmss}";

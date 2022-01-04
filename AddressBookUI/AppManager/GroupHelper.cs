@@ -30,31 +30,28 @@ namespace AddressBookUI
         }
 
 
-        private List<GroupData> groupCache = null;
+        private List<GroupData> _groupCache = null;
 
 
         public List<GroupData> GetGroupList()
         {
          
 
-            if (groupCache == null)
+            if (_groupCache == null)
             {
-                groupCache = new List<GroupData>();
+                _groupCache = new List<GroupData>();
             }
             List<GroupData> groups = new List<GroupData>();
             manager.Navigator.GoToGroupPage();
             ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
             foreach (IWebElement element in elements)
             {
-                groupCache.Add(new GroupData(element.Text)
+                _groupCache.Add(new GroupData(element.Text)
                 {
                     Id = element.FindElement(By.TagName("input")).GetAttribute("value")
                 });
-
-             
-               
             }
-            return new List<GroupData>(groupCache);
+            return new List<GroupData>(_groupCache);
             
         }
 
@@ -80,7 +77,7 @@ namespace AddressBookUI
         public GroupHelper SubmitGroupModofication()
         {
             driver.FindElement(By.Name("update")).Click();
-            groupCache = null;
+            _groupCache = null;
             // cleaning cash
             return this;
         }
@@ -94,7 +91,7 @@ namespace AddressBookUI
         public GroupHelper SubmitGroupCreation()
         {
             driver.FindElement(By.Name("submit")).Click();
-            groupCache = null;
+            _groupCache = null;
             //cleaning cashe
             return this;
         }
@@ -103,17 +100,14 @@ namespace AddressBookUI
             driver.FindElement(By.Name("new")).Click();
             return this;
         }
+
         public GroupHelper FillGroupForm(GroupData group)
         {
-
-
             Type(By.Name("group_name"), group.GroupName);
             Type(By.Name("group_header"), group.GroupHeader);
             Type(By.Name("group_footer"), group.GroupFooter);
             return this;
         }
-
-
 
         public GroupHelper Remove(int p)
         {
@@ -129,7 +123,7 @@ namespace AddressBookUI
         public GroupHelper DeleteGroup()
         {
             driver.FindElement(By.Name("delete")).Click();
-            groupCache = null;
+            _groupCache = null;
             return this;
         }
 
@@ -148,9 +142,7 @@ namespace AddressBookUI
             {
                 Create(new GroupData("NewGroupIfNotExists"));
             }
-
             return this;
-
         }
     }
 }

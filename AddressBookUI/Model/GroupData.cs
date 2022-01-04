@@ -7,14 +7,21 @@ using System.Threading.Tasks;
 
 namespace AddressBookUI
 {
+    //we can compare with another  objects type of groupdata 
     public class GroupData : IEquatable<GroupData>, IComparable<GroupData>
     {
-       
+
+        public string GroupName { get; set; }
+        public string GroupHeader { get; set; }
+        public string GroupFooter { get; set; }
+        public string Id { get; set; }
+
 
         public GroupData(string groupName)
         {
             GroupName = groupName;
         }
+        // function that realises comparison
         public bool Equals(GroupData other)
         {
             //if that object that we compare with is null
@@ -26,7 +33,6 @@ namespace AddressBookUI
             {
                 return true;
             }
-
             //verification by sence 
             return GroupName == other.GroupName;
         }
@@ -35,7 +41,6 @@ namespace AddressBookUI
             
         {
             return GroupName.GetHashCode();
-        
         }
 
         public override string ToString()
@@ -51,14 +56,6 @@ namespace AddressBookUI
             return GroupName.CompareTo(other.GroupName);
         
         }
-        public string GroupName { get; set;  }
-        
-        public string GroupHeader { get; set; }
-       
-        public string GroupFooter { get; set; }
-
-        public string Id { get; set; }
-
     }
     }
 

@@ -15,6 +15,64 @@ namespace AddressBookUI
     {
         private List<ContactData> _contactCache = null;
 
+        public  ContactData GetContactInformationFromTable(int index)
+        {
+            manager.Navigator.OpenHomePage();
+            IList<IWebElement> cells = driver.FindElements(By.Name("entry"))[index].FindElements(By.TagName("td"));
+
+            //string Id = cells[0].Text;
+            string lastName = cells[1].Text;
+
+            string firstName = cells[2].Text;
+            
+            string address = cells[3].Text;
+            
+            string allPhones = cells[5].Text;
+            
+            string allEmails = cells[4].Text;
+
+            return new ContactData(firstName, lastName)
+            {
+                //Id = Id,
+                Address = address,
+                AllPhones = allPhones,
+                AllEmails = allEmails,
+                
+            };
+
+
+        }
+
+        public  ContactData GetContactInformationFromEditForm(int index)
+        {
+            manager.Navigator.OpenHomePage();
+            SelectContact(0);
+            string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");
+            string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
+            string address = driver.FindElement(By.Name("address")).GetAttribute("value");
+
+            string homePhone = driver.FindElement(By.Name("home")).GetAttribute("value");
+            string mobilePhone = driver.FindElement(By.Name("mobile")).GetAttribute("value");
+            string workPhone = driver.FindElement(By.Name("work")).GetAttribute("value");
+
+
+            string email = driver.FindElement(By.Name("email")).GetAttribute("value");
+            string email2 = driver.FindElement(By.Name("email2")).GetAttribute("value");
+            string email3 = driver.FindElement(By.Name("email3")).GetAttribute("value");
+
+            //insert the received data into ContactData, 
+           return  new ContactData(firstName, lastName)
+            {
+                Address = address,
+                HomePhone = homePhone,
+                MobilePhone = mobilePhone,
+                WorkPhone = workPhone,
+                Email= email,
+                Email2= email2,
+                Email3= email3,
+            };
+        }
+
 
         /// <summary>
         /// I an constructor and i need this param
@@ -51,16 +109,13 @@ namespace AddressBookUI
         /// <returns>returns contact list</returns>
         public List<ContactData> GetContactList()
         {
-
             if (_contactCache == null)
             {
                 _contactCache = new List<ContactData>();
 
                 manager.Navigator.OpenHomePage();
-
                 //find a table
                 var myTable = driver.FindElement(By.Id("maintable"));
-
                 //get all rows
                 List<IWebElement> rows = myTable.FindElements(By.TagName("tr")).ToList();
 
@@ -69,24 +124,21 @@ namespace AddressBookUI
                 {
                     //identify each cell and put into list
                     var cells = row.FindElements(By.TagName("td")).ToList();
-                    var Id = driver.FindElement(By.TagName("input")).GetAttribute("value");
-
+                   
                     //go to next iteration
                     if (cells.Count == 0) return;
 
                     //create data hash for each row
-                    _contactCache.Add(new ContactData(cells[2].Text)
-                    {
-                      
-                        LastName = cells[1].Text,
-                        Address = cells[3].Text,
-                        Email = cells[4].Text,
-                        HomePhone = cells[5].Text
-                    }) ; 
+                    _contactCache.Add(new ContactData(cells[2].Text, cells[1].Text)
+                    {  
+                    Id = cells[0].FindElement(By.TagName("input")).GetAttribute("Id"),
+                    Address = cells[3].Text,
+                    AllEmails= cells[4].Text,
+                    AllPhones = cells[5].Text
+                    }); 
                 });
             }
-
-            return _contactCache;
+            return new List<ContactData>(_contactCache);
         }
 
         public int GetContactsCount()
@@ -222,18 +274,18 @@ namespace AddressBookUI
             ClickDeleteButton();
             return this;
         }
-        public ContactHelper CreateContactIfNotExist(int index)
+        public ContactHelper CreateContactIfNotExists(int index)
         {
             manager.Navigator.OpenHomePage();
 
             if (!IsElementPresent(By.XPath("//*[@id= 'maintable']/tbody/tr[" + (index + 1) + "]/td[8]/a/img")))
             {
-                
-                FillAddContactForm(new ContactData("NewContactIfNotExist"));
+
+                FillAddContactForm(new ContactData("FirstNameIfNotExists", "LastNameIfNotExists"));
+                SubmitContactCreation();
+                OpenContactSummaryPage();
             }
-
             return this;
-
         }
     }
 }

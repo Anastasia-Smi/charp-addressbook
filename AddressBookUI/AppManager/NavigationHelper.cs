@@ -34,9 +34,8 @@ namespace AddressBookUI
         public NavigationHelper OpenHomePage()
 
         {
-            driver.Navigate().GoToUrl(baseURL+ "/index.php");
+            driver.Navigate().GoToUrl(baseURL + "/index.php");
             return this;
-
         }
 
         public void GoToGroupsPage()
@@ -55,6 +54,12 @@ namespace AddressBookUI
             return this;
         }
 
-        
+        public NavigationHelper GoToGroupPageAfterDeletition()
+        {
+            driver.FindElement(By.CssSelector("div#content a")).Click();
+            return this;
+        }
+
+
     }
 }
