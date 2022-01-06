@@ -60,6 +60,10 @@ namespace AddressBookUI
             return this;
         }
 
-
+        public NavigationHelper OpenContactDetailsPage(int index)
+        {
+            driver.FindElement(By.XPath("//td[7]/a/img[@title='Details']")).Click();
+            return this;
+        }
     }
 }

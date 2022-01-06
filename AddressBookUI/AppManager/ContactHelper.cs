@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -15,7 +16,7 @@ namespace AddressBookUI
     {
         private List<ContactData> _contactCache = null;
 
-        public  ContactData GetContactInformationFromTable(int index)
+        public ContactData GetContactInformationFromTable(int index)
         {
             manager.Navigator.OpenHomePage();
             IList<IWebElement> cells = driver.FindElements(By.Name("entry"))[index].FindElements(By.TagName("td"));
@@ -24,11 +25,11 @@ namespace AddressBookUI
             string lastName = cells[1].Text;
 
             string firstName = cells[2].Text;
-            
+
             string address = cells[3].Text;
-            
+
             string allPhones = cells[5].Text;
-            
+
             string allEmails = cells[4].Text;
 
             return new ContactData(firstName, lastName)
@@ -37,18 +38,20 @@ namespace AddressBookUI
                 Address = address,
                 AllPhones = allPhones,
                 AllEmails = allEmails,
-                
+
             };
 
 
         }
 
-        public  ContactData GetContactInformationFromEditForm(int index)
+        public ContactData GetContactInformationFromEditForm(int index)
         {
             manager.Navigator.OpenHomePage();
-            SelectContact(0);
+            SelectEditContact(0);
             string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");
             string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
+
+
             string address = driver.FindElement(By.Name("address")).GetAttribute("value");
 
             string homePhone = driver.FindElement(By.Name("home")).GetAttribute("value");
@@ -61,17 +64,53 @@ namespace AddressBookUI
             string email3 = driver.FindElement(By.Name("email3")).GetAttribute("value");
 
             //insert the received data into ContactData, 
-           return  new ContactData(firstName, lastName)
+            return new ContactData(firstName, lastName)
             {
                 Address = address,
                 HomePhone = homePhone,
                 MobilePhone = mobilePhone,
                 WorkPhone = workPhone,
-                Email= email,
-                Email2= email2,
-                Email3= email3,
+                Email = email,
+                Email2 = email2,
+                Email3 = email3,
             };
         }
+
+        public ContactData GetContactInformationFromContactDetailsPage(int index)
+        {
+            manager.Navigator.OpenHomePage();
+            manager.Navigator.OpenContactDetailsPage(0);
+
+            var fullName = driver.FindElement(By.XPath("//div[@id='content']/b")).Text.Split(' ');
+            string lastName = fullName[1];
+            string firstName = fullName[0];
+           
+           // string address = driver.FindElement(By.XPath("//div[@id='content']/text()[2]")).Text;
+
+           // string homePhone = driver.FindElement(By.XPath("//div/br[2]")).Text;
+            //string mobilePhone = driver.FindElement(By.XPath("//div/br[3]")).Text; 
+           // string workPhone = driver.FindElement(By.XPath("//div/br[4]")).Text; 
+
+
+            string email = driver.FindElement(By.XPath("//div/br[5]")).Text;
+            string email2 = driver.FindElement(By.XPath("//div/br[7]")).Text;
+            string email3 = driver.FindElement(By.XPath("//div/br[8]")).Text;
+
+            //insert the received data into ContactData, 
+            return new ContactData(firstName, lastName)
+            {
+                //Address = address,
+               // HomePhone = homePhone,
+               /// MobilePhone = mobilePhone,
+                //WorkPhone = workPhone,
+                Email = email,
+                Email2 = email2,
+                Email3 = email3,
+            };
+        }
+
+
+
 
 
         /// <summary>
@@ -89,7 +128,7 @@ namespace AddressBookUI
             return this;
         }
 
-        public ContactHelper FillAddContactForm (ContactData contact)
+        public ContactHelper FillAddContactForm(ContactData contact)
         {
             Type(By.Name("firstname"), contact.FirstName);
             Type(By.Name("lastname"), contact.LastName);
@@ -124,18 +163,18 @@ namespace AddressBookUI
                 {
                     //identify each cell and put into list
                     var cells = row.FindElements(By.TagName("td")).ToList();
-                   
+
                     //go to next iteration
                     if (cells.Count == 0) return;
 
                     //create data hash for each row
                     _contactCache.Add(new ContactData(cells[2].Text, cells[1].Text)
-                    {  
-                    Id = cells[0].FindElement(By.TagName("input")).GetAttribute("Id"),
-                    Address = cells[3].Text,
-                    AllEmails= cells[4].Text,
-                    AllPhones = cells[5].Text
-                    }); 
+                    {
+                        Id = cells[0].FindElement(By.TagName("input")).GetAttribute("Id"),
+                        Address = cells[3].Text,
+                        AllEmails = cells[4].Text,
+                        AllPhones = cells[5].Text
+                    });
                 });
             }
             return new List<ContactData>(_contactCache);
@@ -143,7 +182,7 @@ namespace AddressBookUI
 
         public int GetContactsCount()
         {
-            return driver.FindElements(By.TagName("tr")).Count-1;
+            return driver.FindElements(By.TagName("tr")).Count - 1;
         }
 
         public ContactHelper GoToAddContactPage()
@@ -155,7 +194,7 @@ namespace AddressBookUI
 
         public ContactHelper SelectContact(int index)
         {
-            driver.FindElement(By.XPath("//div[@id='content']/form//td["+ (index + 1) +"]/input")).Click();
+            driver.FindElement(By.XPath("//div[@id='content']/form//td[" + (index + 1) + "]/input")).Click();
             return this;
         }
 
@@ -168,7 +207,7 @@ namespace AddressBookUI
         public ContactHelper OpenContactSummaryPage()
         {
             driver.FindElement(By.LinkText("home page")).Click();
-        
+
             return this;
         }
 
@@ -196,74 +235,74 @@ namespace AddressBookUI
             // }
             //driver.FindElement(By.XPath("//*[@id= 'maintable']/tbody/tr[" + (index + 1) + "]/td[8]/a/img")).Click();
             driver.FindElement(By.XPath("//*[@id= 'maintable']/tbody/tr[*]/td[8]/a/img")).Click();
-       
+
             return this;
 
         }
 
         public ContactHelper EditEmail(ContactData contact)
-            {
-                driver.FindElement(By.XPath("//form[@action='edit.php']")).Click();
-                Type(By.Name("email"), contact.Email);
-                return this;
-            }
-        
+        {
+            driver.FindElement(By.XPath("//form[@action='edit.php']")).Click();
+            Type(By.Name("email"), contact.Email);
+            return this;
+        }
 
-           public ContactHelper SubmitEditedConatct()
-           {
+
+        public ContactHelper SubmitEditedConatct()
+        {
             driver.FindElement(By.Name("update")).Click();
             _contactCache = null;
             return this;
-           }
+        }
 
-           public ContactHelper EditEmail3(ContactData contact)
-           {
+        public ContactHelper EditEmail3(ContactData contact)
+        {
             driver.FindElement(By.XPath("//form[@action='edit.php']")).Click();
             Type(By.Name("email3"), contact.Email3);
             return this;
-           }
+        }
 
-           public ContactHelper EditEmail2(ContactData contact)
-           {
+        public ContactHelper EditEmail2(ContactData contact)
+        {
             driver.FindElement(By.XPath("//form[@action='edit.php']")).Click();
             Type(By.Name("email2"), contact.Email2);
             return this;
-           }
+        }
 
-           public ContactHelper EditMobileTelephone(ContactData contact)
-           {
+        public ContactHelper EditMobileTelephone(ContactData contact)
+        {
             driver.FindElement(By.XPath("//form[@action='edit.php']")).Click();
-           Type(By.Name("mobile"), contact.MobilePhone);
+            Type(By.Name("mobile"), contact.MobilePhone);
             return this;
-            }
+        }
 
-           public ContactHelper EditHomeTelephone(ContactData contact)
-           {
+        public ContactHelper EditHomeTelephone(ContactData contact)
+        {
             driver.FindElement(By.XPath("//form[@action='edit.php']")).Click();
             Type(By.Name("home"), contact.HomePhone);
-           return this;
-           }
+            return this;
+        }
 
-           public ContactHelper EditAddress(ContactData contact)
-           {
+        public ContactHelper EditAddress(ContactData contact)
+        {
             driver.FindElement(By.XPath("//form[@action='edit.php']")).Click();
             Type(By.Name("address"), contact.Address);
             return this;
-           }
+        }
 
-            public ContactHelper EditLastName(ContactData contact)
-            {
+        public ContactHelper EditLastName(ContactData contact)
+        {
             driver.FindElement(By.Name("lastname")).Click();
             Type(By.Name("lastname"), contact.LastName);
             return this;
-            }
+        }
 
-            public ContactHelper EditFirstName(ContactData contact)
-            {
+        public ContactHelper EditFirstName(ContactData contact)
+        {
             driver.FindElement(By.Name("firstname")).Click();
             Type(By.Name("firstname"), contact.FirstName);
             return this;
-            }
+        }
 
         public ContactHelper Remove(int p)
         {
@@ -287,5 +326,14 @@ namespace AddressBookUI
             }
             return this;
         }
+
+        public int GetNumberOfSearchResults()
+        {
+            manager.Navigator.OpenHomePage();
+            string text = driver.FindElement(By.TagName("label")).Text;
+            Match m = new Regex(@"\d+").Match(text);
+            return Int32.Parse(m.Value);
+        }
     }
 }
+

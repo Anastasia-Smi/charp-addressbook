@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,7 +43,8 @@ namespace AddressBookUI
             {
                 return "";
             }
-            return phone.Replace(" ", "").Replace("-", "").Replace(")", "").Replace("(", "") + "\r\n";
+            //return phone.Replace(" ", "").Replace("-", "").Replace(")", "").Replace("(", "") + "\r\n";
+            return Regex.Replace(phone, "[ -()]", "") + "\r\n";
         }
 
         public string Email { get; set; }

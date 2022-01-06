@@ -14,7 +14,10 @@ namespace AddressBookUI
 
  
         public void GroupModificationTest()
-        {
+        {   
+            
+            app.Groups.CreateGroupIfNotExist(1);
+           
             GroupData newData = new GroupData("zzzz");
         
             newData.GroupName = "ttt";
@@ -23,7 +26,7 @@ namespace AddressBookUI
             List<GroupData> oldGroups = app.Groups.GetGroupList();
 
             GroupData oldData = oldGroups[0];
-            app.Groups.CreateGroupIfNotExist(1);
+         
 
 
             app.Groups.Modify(0, newData);
