@@ -23,31 +23,24 @@ namespace AddressBookUI
 
             //string Id = cells[0].Text;
             string lastName = cells[1].Text;
-
             string firstName = cells[2].Text;
-
             string address = cells[3].Text;
-
-            string allPhones = cells[5].Text;
-
             string allEmails = cells[4].Text;
+            string allPhones = cells[5].Text;
 
             return new ContactData(firstName, lastName)
             {
-                //Id = Id,
                 Address = address,
                 AllPhones = allPhones,
                 AllEmails = allEmails,
-
             };
-
-
         }
 
         public ContactData GetContactInformationFromEditForm(int index)
         {
             manager.Navigator.OpenHomePage();
             SelectEditContact(0);
+
             string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");
             string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
 
@@ -228,12 +221,7 @@ namespace AddressBookUI
         }
         public ContactHelper SelectEditContact(int index)
         {
-            //if (IsElementPresent(By.Name("update"))
-            // && IsElementPresent(By.XPath("//div[@id='content']/h1[.='Edit / add address book entry']")))
-            //{
-            // return;
-            // }
-            //driver.FindElement(By.XPath("//*[@id= 'maintable']/tbody/tr[" + (index + 1) + "]/td[8]/a/img")).Click();
+       
             driver.FindElement(By.XPath("//*[@id= 'maintable']/tbody/tr[*]/td[8]/a/img")).Click();
 
             return this;
