@@ -30,32 +30,53 @@ namespace AddressBookUI
         }
 
 
-        private List<GroupData> _groupCache = null;
+        private List<GroupData> groupCache = null;
+
+
+        //public List<GroupData> GetGroupList()
+        //{
+
+
+        //    if (_groupCache == null)
+        //    {
+        //        _groupCache = new List<GroupData>();
+        //    }
+        //    List<GroupData> groups = new List<GroupData>();
+        //    manager.Navigator.GoToGroupPage();
+        //    ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
+        //    foreach (IWebElement element in elements)
+        //    {
+        //        _groupCache.Add(new GroupData(element.Text)
+        //        {
+        //            Id = element.FindElement(By.TagName("input")).GetAttribute("value")
+        //        });
+        //    }
+        //    return new List<GroupData>(_groupCache);
+
+        //}
 
 
         public List<GroupData> GetGroupList()
         {
-         
+            if (groupCache == null)
+            {
+                groupCache = new List<GroupData>();
+                manager.Navigator.GoToGroupPage();
+                ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
 
-            if (_groupCache == null)
-            {
-                _groupCache = new List<GroupData>();
-            }
-            List<GroupData> groups = new List<GroupData>();
-            manager.Navigator.GoToGroupPage();
-            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
-            foreach (IWebElement element in elements)
-            {
-                _groupCache.Add(new GroupData(element.Text)
+                foreach (IWebElement element in elements)
                 {
-                    Id = element.FindElement(By.TagName("input")).GetAttribute("value")
-                });
+                    groupCache.Add(new GroupData(element.Text)
+                    {
+                        Id = element.FindElement(By.TagName("input")).GetAttribute("value")
+                    });
+                }
             }
-            return new List<GroupData>(_groupCache);
-            
-        }
+            return new List<GroupData>(groupCache);
+    }
 
-        public GroupHelper Modify(int p, GroupData newData)
+
+    public GroupHelper Modify(int p, GroupData newData)
         {
             manager.Navigator.GoToGroupPage();
 
@@ -77,7 +98,7 @@ namespace AddressBookUI
         public GroupHelper SubmitGroupModofication()
         {
             driver.FindElement(By.Name("update")).Click();
-            _groupCache = null;
+            groupCache = null;
             // cleaning cash
             return this;
         }
@@ -91,7 +112,7 @@ namespace AddressBookUI
         public GroupHelper SubmitGroupCreation()
         {
             driver.FindElement(By.Name("submit")).Click();
-            _groupCache = null;
+            groupCache = null;
             //cleaning cashe
             return this;
         }
@@ -123,7 +144,7 @@ namespace AddressBookUI
         public GroupHelper DeleteGroup()
         {
             driver.FindElement(By.Name("delete")).Click();
-            _groupCache = null;
+            groupCache = null;
             return this;
         }
 
