@@ -77,25 +77,32 @@ namespace AddressBookUI
             var fullName = driver.FindElement(By.XPath("//div[@id='content']/b")).Text.Split(' ');
             string lastName = fullName[1];
             string firstName = fullName[0];
-           
-           // string address = driver.FindElement(By.XPath("//div[@id='content']/text()[2]")).Text;
+            // all data together 
 
-           // string homePhone = driver.FindElement(By.XPath("//div/br[2]")).Text;
-            //string mobilePhone = driver.FindElement(By.XPath("//div/br[3]")).Text; 
-           // string workPhone = driver.FindElement(By.XPath("//div/br[4]")).Text; 
+            char [] separator = { '\r' , '\n' };
+            char [] forMobile = { 'M', ':' , ' '};
+            char[] forWork = { 'W', ':', ' ' };
+            char[] forHome = { 'H', ':', ' ' };
+            var allData = driver.FindElement(By.CssSelector("div#content")).Text.Split(separator);
+
+           string address = allData[2];
+            string homePhone = allData[6].Trim(forHome);
+
+            string mobilePhone = allData[8].Trim(forMobile); 
+           string workPhone = allData[10].Trim(forWork); 
 
 
-            string email = driver.FindElement(By.XPath("//div/br[5]")).Text;
-            string email2 = driver.FindElement(By.XPath("//div/br[7]")).Text;
-            string email3 = driver.FindElement(By.XPath("//div/br[8]")).Text;
+            string email = allData[14]; ;
+            string email2 = allData[16];
+            string email3 = allData[18];
 
             //insert the received data into ContactData, 
             return new ContactData(firstName, lastName)
             {
-                //Address = address,
-               // HomePhone = homePhone,
-               /// MobilePhone = mobilePhone,
-                //WorkPhone = workPhone,
+                Address = address,
+                HomePhone = homePhone,
+                MobilePhone = mobilePhone,
+                WorkPhone = workPhone,
                 Email = email,
                 Email2 = email2,
                 Email3 = email3,
