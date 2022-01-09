@@ -12,49 +12,45 @@ namespace AddressBookUI
     [TestFixture]
     public class GroupCreationTests : AuthBaseTest
     {
-        [Test]
-        public void GroupCreation()
+        public static IEnumerable<GroupData> RandomGroupDataProvider()
+        {
+            List<GroupData> groups = new List<GroupData>();
+            for (int i = 0; i < 5; i++)
+            {
+                groups.Add(new GroupData(GenerateRandomString(30))
+                {
+                    GroupHeader = GenerateRandomString(100),
+                    GroupFooter = GenerateRandomString(100)
+                });
+            }
+                return groups;
+        }
+
+      
+
+        [Test, TestCaseSource("RandomGroupDataProvider")]
+        public void GroupCreation(GroupData groups)
         {
             app.Navigator.GoToGroupsPage();
-            GroupData group = new GroupData("Family");
-            group.GroupName = "Family";
-            group.GroupHeader = "HeaderFamiy";
-            group.GroupFooter = "FooterFamily";
+            //GroupData group = new GroupData("Family");
+            //group.GroupName = "Family";
+            //group.GroupHeader = "HeaderFamiy";
+            //group.GroupFooter = "FooterFamily";
             
             List<GroupData> oldGroups = app.Groups.GetGroupList();
 
-            app.Groups.Create(group);
+            app.Groups.Create(groups);
 
            
             Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
 
             List<GroupData> newGroups = app.Groups.GetGroupList();
-            oldGroups.Add(group);
+            oldGroups.Add(groups);
             oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
           
         }
-        //[Test ]
-        //public void GroupCreationEmptyFields()
-        //{
-        //    app.Navigator.GoToGroupsPage();
-        //    GroupData group = new GroupData("");
-        //    group.GroupName = "";
-        //    group.GroupHeader = "";
-        //    group.GroupFooter = "";
-        //    List<GroupData> oldGroups = app.Groups.GetGroupList();
-
-        //    app.Groups.Create(group);
-
-        //    Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
-
-        //    List<GroupData> newGroups = app.Groups.GetGroupList();
-        //    oldGroups.Add(group);
-        //    oldGroups.Sort();
-        //    newGroups.Sort();
-        //    Assert.AreEqual(oldGroups, newGroups);
-
-        //}
+       
     }
 }

@@ -10,32 +10,47 @@ namespace AddressBookUI
     [TestFixture]
     public class GroupModificationTests : AuthBaseTest
     {
-        [Test]
 
- 
-        public void GroupModificationTest()
-        {   
-            
+        public static IEnumerable<GroupData> RandomGroupDataProvider()
+        {
+            List<GroupData> groups = new List<GroupData>();
+            for (int i = 0; i < 5; i++)
+            {
+                groups.Add(new GroupData(GenerateRandomString(30))
+                {
+                    GroupHeader = GenerateRandomString(100),
+                    GroupFooter = GenerateRandomString(100)
+                });
+            }
+            return groups;
+        }
+
+
+     
+        [Test, TestCaseSource("RandomGroupDataProvider")]
+     
+        public void GroupModificationTest(GroupData groupData)
+        {
+
             app.Groups.CreateGroupIfNotExist(1);
-           
+
             GroupData newData = new GroupData("zzzz");
-        
-            newData.GroupName = "ttt";
-            newData.GroupHeader = null;
-            newData.GroupFooter = null;
+
+
+            //newData.GroupName = "ttt";
+            //newData.GroupHeader = null;
+            //newData.GroupFooter = null;
             List<GroupData> oldGroups = app.Groups.GetGroupList();
 
             GroupData oldData = oldGroups[0];
-         
-
 
             app.Groups.Modify(0, newData);
 
             Assert.AreEqual(oldGroups.Count, app.Groups.GetGroupCount());
-           
+
             List<GroupData> newGroups = app.Groups.GetGroupList();
             oldGroups[0].GroupName = newData.GroupName;
-           
+
             oldGroups.Sort();
             newGroups.Sort();
 
@@ -44,7 +59,7 @@ namespace AddressBookUI
             foreach (GroupData group in newGroups)
             {
                 if (group.Id == oldData.Id)
-                { 
+                {
                     Assert.AreEqual(newData.GroupName, group.GroupName);
                 }
             }

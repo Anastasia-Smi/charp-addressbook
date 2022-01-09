@@ -19,8 +19,25 @@ namespace AddressBookUI
         public void SetupApplicationManager()
         {
             app = ApplicationManager.GetInstance();
-           
+        } 
+        
+        //generator of  random integers
+       public static  Random rnd = new Random();
 
+
+        public static string GenerateRandomString(int max)
+        {//create random int from 0 to max
+            int l = Convert.ToInt32(rnd.NextDouble() * max);
+
+            //create string from random symbols
+
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < 1; i++) 
+            {
+                builder.Append(Convert.ToChar(32 + Convert.ToInt32(rnd.NextDouble() * 223)));
+            }
+            return builder.ToString();
         }
+
     }
 }

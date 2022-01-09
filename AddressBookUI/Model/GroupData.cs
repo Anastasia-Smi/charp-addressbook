@@ -45,7 +45,8 @@ namespace AddressBookUI
 
         public override string ToString()
         {
-            return "groupName=" + GroupName;
+            return "groupName=" + GroupName + "\ngroupHeader = " + GroupHeader + "\ngroupFooter = "+ GroupFooter;
+
         }
         public int CompareTo(GroupData other)
         {
