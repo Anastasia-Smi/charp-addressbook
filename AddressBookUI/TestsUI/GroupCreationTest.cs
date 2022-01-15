@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -23,12 +24,32 @@ namespace AddressBookUI
                     GroupFooter = GenerateRandomString(100)
                 });
             }
-                return groups;
+            return groups;
         }
 
-      
 
-        [Test, TestCaseSource("RandomGroupDataProvider")]
+        public static IEnumerable<GroupData> GroupDataFromFile()
+        {
+            List<GroupData> groups = new List<GroupData>();
+
+            string[] lines = File.ReadAllLines(@"groups.cvs");
+            foreach (string l in lines)
+            {
+                string[] parts = l.Split(',');
+                groups.Add(new GroupData(parts[0])
+                { 
+                GroupHeader = parts[1],
+                GroupFooter = parts[2]
+                });
+            }
+
+            return groups;
+        
+        }
+
+
+
+        [Test, TestCaseSource("GroupDataFromFile")]
         public void GroupCreation(GroupData groups)
         {
             app.Navigator.GoToGroupsPage();

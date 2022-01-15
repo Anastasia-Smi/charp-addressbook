@@ -38,9 +38,9 @@ namespace AddressBookUI.TestsUI
 
             //asserts
             Assert.AreEqual(fromPage, fromForm);
-            Assert.AreEqual(fromPage.Address, fromForm.Address);
-            Assert.AreEqual(fromPage.AllPhones, fromForm.AllPhones);
-            Assert.AreEqual(fromPage.AllEmails, fromForm.AllEmails);
+            //Assert.AreEqual(fromPage.Address, fromForm.Address);
+            //Assert.AreEqual(fromPage.AllPhones, fromForm.AllPhones);
+            //Assert.AreEqual(fromPage.AllEmails, fromForm.AllEmails);
         }
 
     }

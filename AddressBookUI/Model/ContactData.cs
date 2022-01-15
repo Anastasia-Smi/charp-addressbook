@@ -80,6 +80,7 @@ namespace AddressBookUI
 
         public string Id { get; set; }
 
+        public string AllData { get; set; }
         /// <summary>
         /// constyructor
         /// </summary>

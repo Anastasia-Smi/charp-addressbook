@@ -10,6 +10,10 @@ namespace AddressBookUI
     //we can compare with another  objects type of groupdata 
     public class GroupData : IEquatable<GroupData>, IComparable<GroupData>
     {
+        public GroupData()
+        { 
+        
+        }
 
         public string GroupName { get; set; }
         public string GroupHeader { get; set; }
