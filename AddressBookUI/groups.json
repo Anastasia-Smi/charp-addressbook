@@ -1,0 +1,38 @@
+[
+  {
+    "GroupName": "?",
+    "GroupHeader": "@",
+    "GroupFooter": "3",
+    "Id": null
+  },
+  {
+    "GroupName": "!",
+    "GroupHeader": "+",
+    "GroupFooter": "R",
+    "Id": null
+  },
+  {
+    "GroupName": ".",
+    "GroupHeader": "R",
+    "GroupFooter": "I",
+    "Id": null
+  },
+  {
+    "GroupName": "=",
+    "GroupHeader": "3",
+    "GroupFooter": "_",
+    "Id": null
+  },
+  {
+    "GroupName": "!",
+    "GroupHeader": "P",
+    "GroupFooter": "8",
+    "Id": null
+  },
+  {
+    "GroupName": "T",
+    "GroupHeader": "'",
+    "GroupFooter": "I",
+    "Id": null
+  }
+]

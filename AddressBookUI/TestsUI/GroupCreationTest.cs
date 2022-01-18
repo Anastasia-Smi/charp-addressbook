@@ -5,6 +5,11 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Collections.Generic;
 using NUnit.Framework;
+using Newtonsoft.Json;
+using Exel = Microsoft.Office.Interop.Excel;
+using System.Xml;
+using System.Xml.Serialization;
+
 
 
 namespace AddressBookUI
@@ -28,28 +33,71 @@ namespace AddressBookUI
         }
 
 
-        public static IEnumerable<GroupData> GroupDataFromFile()
+        public static IEnumerable<GroupData> GroupDataFromCvsFile()
         {
-            List<GroupData> groups = new List<GroupData>();
-
-            string[] lines = File.ReadAllLines(@"groups.cvs");
-            foreach (string l in lines)
-            {
-                string[] parts = l.Split(',');
-                groups.Add(new GroupData(parts[0])
-                { 
-                GroupHeader = parts[1],
-                GroupFooter = parts[2]
-                });
-            }
-
-            return groups;
-        
+              return (List<GroupData>) 
+                new XmlSerializer(typeof(List<GroupData>))
+                .Deserialize(new StreamReader(@"groups.xml"));
         }
 
 
 
-        [Test, TestCaseSource("GroupDataFromFile")]
+        public static IEnumerable<GroupData> GroupDataFromJsonFile()
+        {
+            return JsonConvert.DeserializeObject<List<GroupData>>(
+                 File.ReadAllText(@"groups.json")
+                 );
+
+        }
+
+        public static IEnumerable<GroupData> GroupDataFromExelFile()
+        {
+            List<GroupData> groups = new List<GroupData>();
+            Exel.Application app = new Exel.Application();
+
+            Exel.Workbook wb = app.Workbooks.Open(Path.Combine(Directory.GetCurrentDirectory(),
+                @"groups.xlsx"));
+            Exel.Worksheet sheet = wb.ActiveSheet;
+            Exel.Range range = sheet.UsedRange;
+            for (int i = 1; i <= range.Rows.Count; i++)
+            {
+                groups.Add(new GroupData()
+                {
+                    GroupName = range.Cells[i, 1].Value,
+                    GroupHeader = range.Cells[i, 2].Value,
+                    GroupFooter = range.Cells[i, 3].Value,
+                });
+            }
+            wb.Close();
+            app.Visible = false;
+            app.Quit();
+            return groups;
+
+        }
+        public static IEnumerable<GroupData> GroupDataFromXmlFile()
+        {
+            List<GroupData> groups = new List<GroupData>();
+
+            string[] lines = File.ReadAllLines(@"groups.xml");
+            foreach (string l in lines)
+            {
+                string[] parts = l.Split(',');
+                groups.Add(new GroupData(parts[0])
+                {
+                    GroupHeader = parts[1],
+                    GroupFooter = parts[2]
+                });
+            }
+
+            return groups;
+
+        }
+
+
+
+
+
+        [Test, TestCaseSource("GroupDataFromJsonFile")]
         public void GroupCreation(GroupData groups)
         {
             app.Navigator.GoToGroupsPage();
