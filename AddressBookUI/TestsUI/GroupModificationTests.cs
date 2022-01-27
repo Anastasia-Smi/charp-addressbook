@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace AddressBookUI
 {
     [TestFixture]
-    public class GroupModificationTests : AuthBaseTest
+    public class GroupModificationTests : GroupTestBase
     {
 
         public static IEnumerable<GroupData> RandomGroupDataProvider()
@@ -40,7 +40,7 @@ namespace AddressBookUI
             //newData.GroupName = "ttt";
             //newData.GroupHeader = null;
             //newData.GroupFooter = null;
-            List<GroupData> oldGroups = app.Groups.GetGroupList();
+            List<GroupData> oldGroups = GroupData.GetAll();
 
             GroupData oldData = oldGroups[0];
 
@@ -48,7 +48,7 @@ namespace AddressBookUI
 
             Assert.AreEqual(oldGroups.Count, app.Groups.GetGroupCount());
 
-            List<GroupData> newGroups = app.Groups.GetGroupList();
+            List<GroupData> newGroups = GroupData.GetAll();
             oldGroups[0].GroupName = newData.GroupName;
 
             oldGroups.Sort();

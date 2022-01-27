@@ -36,6 +36,65 @@ namespace AddressBookUI
             };
         }
 
+        public void AddContactToGroup(ContactData contact, GroupData group)
+        {
+            manager.Navigator.OpenHomePage();
+            ClearGroupFilter();
+            SelectContactById(contact.Id);
+            SelectGroupToAdd(group.GroupName);
+            CommitAddingContactToGroup();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+                .Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
+        }
+
+
+
+
+        internal void RemoveFromGroup(ContactData contact, GroupData group)
+        {
+            manager.Navigator.OpenHomePage();
+            ClearGroupFilter();
+            SelectGroupToDisplay();
+            SelectContactById(contact.Id);
+            RemoveContactFromGroup();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+                .Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
+        }
+
+        public void RemoveContactFromGroup()
+        {
+            driver.FindElement(By.Name("remove")).Click();
+
+        }
+
+        public void SelectGroupToDisplay()
+        {
+         
+            SelectElement oSelect = new SelectElement(driver.FindElement(By.Name("group")));
+            oSelect.SelectByText("family");
+        }
+
+        private void CommitAddingContactToGroup()
+        {
+            driver.FindElement(By.Name("add")).Click();
+        }
+
+        private void SelectGroupToAdd(string name)
+        {
+            new SelectElement(driver.FindElement(By.Name("to_group"))).SelectByText(name);
+
+        }
+
+        public void SelectContactById(string contactId)
+        {
+            driver.FindElement(By.Id(contactId)).Click();
+        }
+
+        public void ClearGroupFilter()
+        {
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText("[all]");
+        }
+
         public ContactData GetContactInformationFromEditForm(int index)
         {
             manager.Navigator.OpenHomePage();

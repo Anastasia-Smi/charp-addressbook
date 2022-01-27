@@ -4,25 +4,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LinqToDB.Mapping;
 
 namespace AddressBookUI
-{
+{ 
+    [Table(Name = "addressbook") ]
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
-
+       
         public ContactData()
         { 
         
         }
         private string allPhones;
         private string allEmails;
-
+        [Column(Name = "firstname")]
         public string FirstName { get; set; }
+        
+        [Column(Name = "lastname")]
         public string LastName { get; set; }
         public string Address { get; set; }
         public string MobilePhone { get; set; }
         public string HomePhone { get; set; }
         public string WorkPhone { get; set; }
+        [Column(Name = "deprecated")]
+        public string Deprecated { get; set; }
+
         public string AllPhones 
         {
             get
@@ -82,7 +89,7 @@ namespace AddressBookUI
         //    //return email.Replace(" ", "").Replace("-", "").Replace(")", "").Replace("(", "") + "\r\n";
         //    return Regex.Replace(email, "[ -()]", "") + "\r\n";
         //}
-
+        [Column(Name = "id"), PrimaryKey]
         public string Id { get; set; }
 
         public string AllData { get; set; }
@@ -135,6 +142,15 @@ namespace AddressBookUI
                 return 1;
             }
             return FirstName.CompareTo(other.FirstName);
+        }
+
+        public static List<ContactData> GetAll()
+        {
+            using (AddressbookDB db = new AddressbookDB())
+            {
+                return (from c in db.Contacts.Where(x => x.Deprecated == "0000-00-00 00:00:00") select c).ToList();
+
+            }
         }
     }
 }

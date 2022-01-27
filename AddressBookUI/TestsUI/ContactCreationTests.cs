@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using Exel = Microsoft.Office.Interop.Excel;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Linq;
 
 
 
@@ -38,13 +39,13 @@ namespace AddressBookUI
 
 
 
-            public static IEnumerable<ContactData> ContactDataFromJsonFile()
-            {
-                return JsonConvert.DeserializeObject<List<ContactData>>(
-                     File.ReadAllText(@"contacts.json")
-                     );
+            //public static IEnumerable<ContactData> ContactDataFromJsonFile()
+            //{
+            //    return JsonConvert.DeserializeObject<List<ContactData>>(
+            //         File.ReadAllText(@"contacts.json")
+            //         );
 
-            }
+            //}
 
 
             public static IEnumerable<ContactData> ContactDataFromXmlFile()
@@ -103,6 +104,16 @@ namespace AddressBookUI
                 oldContacts.Sort();
                 newContacts.Sort();
                 Assert.AreEqual(oldContacts, newContacts);
+
+            }
+
+            [Test]
+            public void TestDBConnectivity()
+            {
+                app.Contact.GetContactList();
+
+                AddressbookDB db = new AddressbookDB();
+                (from g in db.Groups select g).ToList();
 
             }
         }
