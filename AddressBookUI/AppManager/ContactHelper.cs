@@ -129,46 +129,7 @@ namespace AddressBookUI
             };
         }
 
-        //public ContactData GetContactInformationFromContactDetailsPage(int index)
-        //{
-        //    manager.Navigator.OpenHomePage();
-        //    manager.Navigator.OpenContactDetailsPage(0);
-
-        //    var fullName = driver.FindElement(By.XPath("//div[@id='content']/b")).Text.Split(' ');
-        //    string lastName = fullName[1];
-        //    string firstName = fullName[0];
-        //    // all data together 
-
-        //    char[] separator = { '\r', '\n' };
-        //    char[] forMobile = { 'M', ':', ' ' };
-        //    char[] forWork = { 'W', ':', ' ' };
-        //    char[] forHome = { 'H', ':', ' ' };
-        //    var allData = driver.FindElement(By.CssSelector("div#content")).Text.Split(separator);
-
-        //    string address = allData[2];
-        //    string homePhone = allData[6].Trim(forHome);
-
-        //    string mobilePhone = allData[8].Trim(forMobile);
-        //    string workPhone = allData[10].Trim(forWork);
-
-
-        //    string email = allData[14]; ;
-        //    string email2 = allData[16];
-        //    string email3 = allData[18];
-
-        //    //insert the received data into ContactData, 
-        //    return new ContactData(firstName, lastName)
-        //    {
-        //        Address = address,
-        //        HomePhone = homePhone,
-        //        MobilePhone = mobilePhone,
-        //        WorkPhone = workPhone,
-        //        Email = email,
-        //        Email2 = email2,
-        //        Email3 = email3,
-        //    };
-        //}
-
+     
 
         public ContactData GetContactInformationFromContactDetailsPage(int index)
         {
@@ -415,7 +376,7 @@ namespace AddressBookUI
 
             if (!IsElementPresent(By.XPath("//*[@id= 'maintable']/tbody/tr[" + (index + 1) + "]/td[8]/a/img")))
             {
-
+                GoToAddContactPage();
                 FillAddContactForm(new ContactData("FirstNameIfNotExists", "LastNameIfNotExists"));
                 SubmitContactCreation();
                 OpenContactSummaryPage();
